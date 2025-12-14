@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 
 // Before the page renders, go get the data it needs as React Router calls loader before rendering ProjectsPage whatever you return from loader becomes page data
 export async function loader({request}: Route.LoaderArgs): Promise<{projects: Project[]}> {
-  const res = await fetch('http://localhost:8000/projects');
+  const res = await fetch(`${import.meta.env.VITE_API_URL}/projects`);
   const data = await res.json();
 
   return {projects: data};

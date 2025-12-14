@@ -5,7 +5,7 @@ import { Link } from "react-router";
 
 // Preferred to use Server Loader but we'll try the Client Loader to learn about it
 export async function clientLoader({request, params}: Route.ClientLoaderArgs): Promise<Project> {
-  const res = await fetch(`http://localhost:8000/projects/${params.id}`);
+  const res = await fetch(`${import.meta.env.VITE_API_URL}/${params.id}`);
 
   if(!res.ok) throw new Response('Project not found', {status: 404});
 
