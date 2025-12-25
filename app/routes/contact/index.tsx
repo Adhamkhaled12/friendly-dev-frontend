@@ -1,6 +1,7 @@
 import type { Route } from "./+types";
 import { Form } from "react-router";
 
+// action is a server side logic
 export async function action({ request }: Route.ActionArgs) {
   const formData = await request.formData();
   const name = formData.get('name');
@@ -20,10 +21,9 @@ export async function action({ request }: Route.ActionArgs) {
 
   if (!subject) errors.subject = 'Subject is required.';
   
-  if (!message) {
-    errors.message = 'Message is required.';
-  }
-
+  if (!message) errors.message = 'Message is required.';
+  
+  // Check if there is anything in the errors object
   if (Object.keys(errors).length > 0) {
     return { errors };
   }
@@ -40,6 +40,7 @@ export async function action({ request }: Route.ActionArgs) {
   return { message: 'Form submitted successfully!', data };
 }
 
+// whatever action returns after being called from Form it returns actionData and it's injected by ReactRouter and it rerenders route with the result
 const ContactPage = ({ actionData }: Route.ComponentProps) => {
   const errors = actionData?.errors || {};
 
@@ -57,6 +58,7 @@ const ContactPage = ({ actionData }: Route.ComponentProps) => {
       ) : null
       }
 
+      {/* Form here automatically calls the route's action */}
       <Form method="post" className='space-y-6'>
         {/* Full Name */}
         <div>
@@ -139,7 +141,7 @@ const ContactPage = ({ actionData }: Route.ComponentProps) => {
         {/* Submit Button */}
         <button
           type='submit'
-          className='w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition'
+          className='w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 cursor-pointer'
         >
           Send Message
         </button>
